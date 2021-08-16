@@ -1,12 +1,13 @@
 """Define anything needed to connect to a LOOK.in device."""
 import json
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional, Union, cast
 
 from aiohttp import ClientSession, ClientTimeout
 from aiohttp.client_exceptions import ClientError
 
 from .const import LOGGER
 from .errors import RequestError
+from .sensor import Sensor
 
 DEFAULT_TIMEOUT = 10
 
@@ -30,6 +31,8 @@ class Device:
         self._device_info: Dict[str, str] = {}
         self._ip_address = ip_address
         self._session = session
+
+        self.sensor = Sensor(self._async_request)
 
     def __repr__(self) -> str:
         """Return a string representation of the device."""
@@ -101,11 +104,11 @@ class Device:
 
     async def _async_request(
         self, method: str, endpoint: str, **kwargs: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    ) -> Union[Dict[str, Any], List[str]]:
         """Make an API request."""
         url = f"http://{self._ip_address}/{endpoint}"
-        use_running_session = self._session and not self._session.closed
 
+        use_running_session = self._session and not self._session.closed
         if use_running_session:
             session = self._session
         else:
@@ -134,7 +137,8 @@ class Device:
 
         Intended to be called right after instantiating the object.
         """
-        self._device_info = await self._async_request("get", "device")
+        data = await self._async_request("get", "device")
+        self._device_info = cast(Dict[str, Any], data)
 
 
 async def async_get_device(
