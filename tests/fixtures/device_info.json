@@ -1,0 +1,16 @@
+{
+  "Type": "Remote",
+  "MRDC": "1234567890ABCDEF",
+  "Status": "Running",
+  "ID": "ABCD1234",
+  "Name": "Test Device",
+  "Time": "1629114787",
+  "Timezone": "-7",
+  "PowerMode": "5v",
+  "CurrentVoltage": "5889",
+  "Firmware": "2.36",
+  "Temperature": "53",
+  "HomeKit": "1",
+  "EcoMode": "on",
+  "SensorMode": "0"
+}
