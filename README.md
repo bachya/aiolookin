@@ -11,6 +11,11 @@
 `aiolookin` is a Python 3, asyncio-friendly library for interacting with
 [LOOK.in](https://look-in.club/en) devices.
 
+- [Python Versions](#python-versions)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+
 # Python Versions
 
 `aiolookin` is currently supported on:
