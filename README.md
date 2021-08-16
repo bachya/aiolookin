@@ -56,7 +56,6 @@ from aiolookin import async_get_device
 
 
 async def main() -> None:
-    """Create the aiohttp session and run the example."""
     async with ClientSession() as session:
         device = await async_get_device("<IP ADDRESS>")
 
