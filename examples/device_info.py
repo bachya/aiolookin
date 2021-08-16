@@ -29,7 +29,7 @@ async def main() -> None:
             _LOGGER.info("Type: %s", device.type)
             _LOGGER.info("Voltage: %s", device.voltage)
         except LookInError as err:
-            _LOGGER.error("There was an error: %s", err)
+            _LOGGER.error("There was an error while getting the device: %s", err)
 
 
 asyncio.run(main())

@@ -11,3 +11,9 @@ class RequestError(LookInError):
     """Define an error related a bad HTTP request."""
 
     pass
+
+
+class SensorError(LookInError):
+    """Define a sensor-related error."""
+
+    pass

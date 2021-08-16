@@ -33,6 +33,8 @@ pip install aiolookin
 
 # Usage
 
+## Setup
+
 ```python
 import asyncio
 
@@ -70,7 +72,7 @@ async def main() -> None:
 asyncio.run(main())
 ```
 
-## The `Device` Object
+## Device Properties
 
 Each `Device` object obtained by `async_get_device` has a series of useful properties:
 
@@ -86,6 +88,30 @@ Each `Device` object obtained by `async_get_device` has a series of useful prope
 * `status`: the current status of the device
 * `type`: the type of device
 * `voltage`: the voltage being applied to the device (in millivolts)
+
+## Getting Sensor Values
+
+`Device` objects can easily retrieve the latest values from the associated device's onboard
+sensors:
+
+```python
+import asyncio
+
+from aiolookin import async_get_device
+
+
+async def main() -> None:
+    device = await async_get_device("<IP ADDRESS>")
+
+    # Get the latest value from the onboard IR sensor:
+    ir_data = await device.sensor.async_get_ir_value()
+
+    # Get the latest value from the onboard meteorological sensor:
+    meteo_data = await device.sensor.async_get_meteo_value()
+
+
+asyncio.run(main())
+```
 
 # Contributing
 
