@@ -11,19 +11,9 @@ from .common import TEST_IP_ADDRESS
 
 
 @pytest.mark.asyncio
-async def test_invalid_sensor_type(aresponses, device_info, sensor_list):
+async def test_invalid_sensor_type(aresponses, device_server, sensor_list):
     """Test that requesting an unsupported sensor type throws the proper exception."""
-    aresponses.add(
-        TEST_IP_ADDRESS,
-        "/device",
-        "get",
-        aresponses.Response(
-            text=json.dumps(device_info),
-            status=200,
-            headers={"Content-Type": "application/json; charset=utf-8"},
-        ),
-    )
-    aresponses.add(
+    device_server.add(
         TEST_IP_ADDRESS,
         "/sensors",
         "get",
@@ -44,20 +34,10 @@ async def test_invalid_sensor_type(aresponses, device_info, sensor_list):
 
 @pytest.mark.asyncio
 async def test_sensor_values(
-    aresponses, device_info, ir_sensor_value, meteo_sensor_value, sensor_list
+    aresponses, device_server, ir_sensor_value, meteo_sensor_value, sensor_list
 ):
     """Test getting the latest value of a device's sensors."""
-    aresponses.add(
-        TEST_IP_ADDRESS,
-        "/device",
-        "get",
-        aresponses.Response(
-            text=json.dumps(device_info),
-            status=200,
-            headers={"Content-Type": "application/json; charset=utf-8"},
-        ),
-    )
-    aresponses.add(
+    device_server.add(
         TEST_IP_ADDRESS,
         "/sensors",
         "get",
@@ -67,7 +47,7 @@ async def test_sensor_values(
             headers={"Content-Type": "application/json; charset=utf-8"},
         ),
     )
-    aresponses.add(
+    device_server.add(
         TEST_IP_ADDRESS,
         "/sensors/IR",
         "get",
@@ -77,7 +57,7 @@ async def test_sensor_values(
             headers={"Content-Type": "application/json; charset=utf-8"},
         ),
     )
-    aresponses.add(
+    device_server.add(
         TEST_IP_ADDRESS,
         "/sensors",
         "get",
@@ -87,7 +67,7 @@ async def test_sensor_values(
             headers={"Content-Type": "application/json; charset=utf-8"},
         ),
     )
-    aresponses.add(
+    device_server.add(
         TEST_IP_ADDRESS,
         "/sensors/Meteo",
         "get",
@@ -109,19 +89,9 @@ async def test_sensor_values(
 
 
 @pytest.mark.asyncio
-async def test_sensor_list(aresponses, device_info, sensor_list):
+async def test_sensor_list(aresponses, device_server, sensor_list):
     """Test getting the list of sensors supported by the device."""
-    aresponses.add(
-        TEST_IP_ADDRESS,
-        "/device",
-        "get",
-        aresponses.Response(
-            text=json.dumps(device_info),
-            status=200,
-            headers={"Content-Type": "application/json; charset=utf-8"},
-        ),
-    )
-    aresponses.add(
+    device_server.add(
         TEST_IP_ADDRESS,
         "/sensors",
         "get",

@@ -3,7 +3,24 @@ import json
 
 import pytest
 
-from .common import load_fixture
+from .common import TEST_IP_ADDRESS, load_fixture
+
+
+@pytest.fixture(name="device_server")
+def device_server_fixture(aresponses, device_info):
+    """Define a fixture to an aresponses server that represents a device."""
+    aresponses.add(
+        TEST_IP_ADDRESS,
+        "/device",
+        "get",
+        aresponses.Response(
+            text=json.dumps(device_info),
+            status=200,
+            headers={"Content-Type": "application/json; charset=utf-8"},
+        ),
+    )
+
+    return aresponses
 
 
 @pytest.fixture(name="device_info", scope="session")
