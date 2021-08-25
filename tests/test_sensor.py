@@ -11,7 +11,7 @@ from .common import TEST_IP_ADDRESS
 
 
 @pytest.mark.asyncio
-async def test_invalid_sensor_type(aresponses, device_server, sensor_list):
+async def test_invalid_sensor(aresponses, device_server, sensor_list):
     """Test that requesting an unsupported sensor type throws the proper exception."""
     device_server.add(
         TEST_IP_ADDRESS,
@@ -29,7 +29,7 @@ async def test_invalid_sensor_type(aresponses, device_server, sensor_list):
 
         with pytest.raises(SensorError) as err:
             await device.sensor.async_get_sensor_value("Fake Sensor")
-            assert "Unknown sensor type" in str(err)
+            assert "Unknown sensor" in str(err)
 
 
 @pytest.mark.asyncio

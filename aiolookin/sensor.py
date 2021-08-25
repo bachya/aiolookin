@@ -11,18 +11,17 @@ class Sensor:
         """Initialize."""
         self._async_request = async_request
 
-    async def async_get_sensor_value(self, sensor_type: str) -> Dict[str, Any]:
+    async def async_get_sensor_value(self, sensor: str) -> Dict[str, Any]:
         """Get the latest value of a particular sensor."""
         sensor_list = await self.async_get_sensor_list()
-        if sensor_type not in sensor_list:
-            raise SensorError(f"Unknown sensor type: {sensor_type}")
 
-        data = cast(
-            Dict[str, Any], await self._async_request("get", f"sensors/{sensor_type}")
-        )
-        return data
+        if sensor not in sensor_list:
+            raise SensorError(f"Unknown sensor: {sensor}")
+
+        data = await self._async_request("get", f"sensors/{sensor}")
+        return cast(Dict[str, Any], data)
 
     async def async_get_sensor_list(self) -> List[str]:
-        """Get the latest value of the device's onboard Meteo sensor."""
+        """Get the list of sensors supported by the device."""
         data = await self._async_request("get", "sensors")
         return cast(List[str], data)
