@@ -5,6 +5,7 @@ from typing import Any, Dict, List, Optional, Union, cast
 from aiohttp import ClientSession, ClientTimeout
 from aiohttp.client_exceptions import ClientError
 
+from .command import Command
 from .const import LOGGER
 from .errors import RequestError
 from .sensor import Sensor
@@ -32,6 +33,7 @@ class Device:
         self._ip_address = ip_address
         self._session = session
 
+        self.command = Command(self._async_request)
         self.sensor = Sensor(self._async_request)
 
     def __repr__(self) -> str:
