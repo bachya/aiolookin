@@ -11,9 +11,7 @@ from .common import TEST_IP_ADDRESS
 
 
 @pytest.mark.asyncio
-async def test_invalid_sensor_type(
-    aresponses, device_info, ir_sensor_value, sensor_list
-):
+async def test_invalid_sensor_type(aresponses, device_info, sensor_list):
     """Test that requesting an unsupported sensor type throws the proper exception."""
     aresponses.add(
         TEST_IP_ADDRESS,
