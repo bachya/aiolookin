@@ -106,13 +106,16 @@ async def main() -> None:
     device = await async_get_device("<IP ADDRESS>")
 
     # Get the list of sensors supported by the device:
-    sensors = await device.sensor.async_get_sensors_list()
+    sensors = await device.sensor.async_get_sensor_list()
+    # >>> ["IR", "Meteo"]
 
     # Get the latest value from the onboard IR sensor:
-    ir_data = await device.sensor.async_get_ir_value()
+    ir_data = await device.sensor.async_get_sensor_value("IR")
+    # >>> {"IsRepeated": "0", "Protocol": "00", "Raw": "", ...}
 
     # Get the latest value from the onboard meteorological sensor:
-    meteo_data = await device.sensor.async_get_meteo_value()
+    meteo_data = await device.sensor.async_get_sensor_value("Meteo")
+    # >>> {"Humidity": "66.6", "Pressure": "0", "Temperature": "19.5", ...}
 
 
 asyncio.run(main())

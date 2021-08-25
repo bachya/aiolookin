@@ -15,8 +15,6 @@ async def test_invalid_sensor_type(
     aresponses, device_info, ir_sensor_value, sensor_list
 ):
     """Test that requesting an unsupported sensor type throws the proper exception."""
-    sensor_list = []
-
     aresponses.add(
         TEST_IP_ADDRESS,
         "/device",
@@ -37,22 +35,12 @@ async def test_invalid_sensor_type(
             headers={"Content-Type": "application/json; charset=utf-8"},
         ),
     )
-    aresponses.add(
-        TEST_IP_ADDRESS,
-        "/sensors/IR",
-        "get",
-        aresponses.Response(
-            text=json.dumps(ir_sensor_value),
-            status=200,
-            headers={"Content-Type": "application/json; charset=utf-8"},
-        ),
-    )
 
     async with aiohttp.ClientSession() as session:
         device = await async_get_device(TEST_IP_ADDRESS, session=session)
 
         with pytest.raises(SensorError) as err:
-            await device.sensor.async_get_ir_value()
+            await device.sensor.async_get_sensor_value("Fake Sensor")
             assert "Unknown sensor type" in str(err)
 
 
@@ -115,10 +103,10 @@ async def test_sensor_values(
     async with aiohttp.ClientSession() as session:
         device = await async_get_device(TEST_IP_ADDRESS, session=session)
 
-        ir_data = await device.sensor.async_get_ir_value()
+        ir_data = await device.sensor.async_get_sensor_value("IR")
         assert ir_data["Protocol"] == "01"
 
-        meteo_data = await device.sensor.async_get_meteo_value()
+        meteo_data = await device.sensor.async_get_sensor_value("Meteo")
         assert meteo_data["Humidity"] == "62"
 
 
@@ -148,5 +136,5 @@ async def test_sensor_list(aresponses, device_info, sensor_list):
 
     async with aiohttp.ClientSession() as session:
         device = await async_get_device(TEST_IP_ADDRESS, session=session)
-        sensors = await device.sensor.async_get_sensors_list()
+        sensors = await device.sensor.async_get_sensor_list()
         assert sensors == ["IR", "Meteo"]
