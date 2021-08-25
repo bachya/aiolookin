@@ -4,7 +4,7 @@ from typing import Any, Awaitable, Callable, Dict, List, Optional, cast
 from .errors import CommandError
 
 
-class Command:
+class CommandAPI:
     """Define a command data object."""
 
     def __init__(self, async_request: Callable[..., Awaitable]) -> None:
