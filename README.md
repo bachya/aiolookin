@@ -91,7 +91,7 @@ Each `Device` object obtained by `async_get_device` has a series of useful prope
 * `type`: the type of device
 * `voltage`: the voltage being applied to the device (in millivolts)
 
-## Getting Sensor Values
+## Sensors
 
 `Device` objects can easily retrieve the latest values from the associated device's onboard
 sensors:
@@ -120,6 +120,41 @@ async def main() -> None:
 
 asyncio.run(main())
 ```
+
+You can learn more about sensors by reading
+[the official `sensors` documentation](https://documenter.getpostman.com/view/11774062/SzzkddLg?version=latest#fa983978-5168-4245-a84e-6b85a9596f99).
+
+## Commands
+
+Sending commands is a snap!
+
+```python
+import asyncio
+
+from aiolookin import async_get_device
+
+
+async def main() -> None:
+    device = await async_get_device("<IP ADDRESS>")
+
+    # Get the list of commands supported by the device:
+    commands = await device.command.async_get_command_list()
+    # >>> ["IR"]
+
+    # Get the list of actions that can be executed by a specific command:
+    actions = await device.command.async_get_command_action_list("IR")
+    # >>> ["ac", "aiwa", "localremote", "nec1", "necx", "panasonic", ...]
+
+    # Send a command/action (with an optional parameter, called an "operand"):
+    response = await device.command.async_send_command("IR", "nec1", operand="123abc")
+    # >>> {"success": "true"}
+
+
+asyncio.run(main())
+```
+
+You can learn more about device commands/actions/operands by reading
+[the official `commands` documentation](https://documenter.getpostman.com/view/11774062/SzzkddLg?version=latest#b583e8ee-912c-46db-b294-18578c4333a5).
 
 # Contributing
 

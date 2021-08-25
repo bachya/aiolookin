@@ -7,6 +7,12 @@ class LookInError(Exception):
     pass
 
 
+class CommandError(LookInError):
+    """Define a command-related error."""
+
+    pass
+
+
 class RequestError(LookInError):
     """Define an error related a bad HTTP request."""
 
