@@ -44,6 +44,8 @@ from aiolookin import async_get_device
 async def main() -> None:
     device = await async_get_device("<IP ADDRESS>")
 
+    # ...
+
 
 asyncio.run(main())
 ```
@@ -66,7 +68,7 @@ async def main() -> None:
     async with ClientSession() as session:
         device = await async_get_device("<IP ADDRESS>")
 
-        # Get to work...
+        # ...
 
 
 asyncio.run(main())
@@ -102,6 +104,9 @@ from aiolookin import async_get_device
 
 async def main() -> None:
     device = await async_get_device("<IP ADDRESS>")
+
+    # Get the list of sensors supported by the device:
+    sensors = await device.sensor.async_get_sensors_list()
 
     # Get the latest value from the onboard IR sensor:
     ir_data = await device.sensor.async_get_ir_value()
