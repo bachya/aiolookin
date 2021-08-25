@@ -120,3 +120,33 @@ async def test_sensor_values(
 
         meteo_data = await device.sensor.async_get_meteo_value()
         assert meteo_data["Humidity"] == "62"
+
+
+@pytest.mark.asyncio
+async def test_sensor_list(aresponses, device_info, sensor_list):
+    """Test getting the list of sensors supported by the device."""
+    aresponses.add(
+        TEST_IP_ADDRESS,
+        "/device",
+        "get",
+        aresponses.Response(
+            text=json.dumps(device_info),
+            status=200,
+            headers={"Content-Type": "application/json; charset=utf-8"},
+        ),
+    )
+    aresponses.add(
+        TEST_IP_ADDRESS,
+        "/sensors",
+        "get",
+        aresponses.Response(
+            text=json.dumps(sensor_list),
+            status=200,
+            headers={"Content-Type": "application/json; charset=utf-8"},
+        ),
+    )
+
+    async with aiohttp.ClientSession() as session:
+        device = await async_get_device(TEST_IP_ADDRESS, session=session)
+        sensors = await device.sensor.async_get_sensors_list()
+        assert sensors == ["IR", "Meteo"]
