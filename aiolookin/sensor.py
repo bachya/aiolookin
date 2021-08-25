@@ -4,7 +4,7 @@ from typing import Any, Awaitable, Callable, Dict, List, cast
 from .errors import SensorError
 
 
-class Sensor:
+class SensorAPI:
     """Define a sensor data object."""
 
     def __init__(self, async_request: Callable[..., Awaitable]) -> None:
